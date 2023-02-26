@@ -1,12 +1,81 @@
-{% extends 'base.html' %}
-{% block content %}
-    <h1>Product Listing</h1>
-    <ul>
-        {% for product in products %}
-            <li>{{ product.name }} - {{ product.price }}</li>
-            {% for variation in product.variations %}
-                <li>{{ variation.variation_text }} - {{ variation.stock }}</li>
-            {% endfor %}
+{% extends 'base.html' %} {% block content %}
+
+<!-- Button trigger modal -->
+<button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop"
+>
+  Launch static backdrop modal
+</button>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Add New Product</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- add a form to upload file -->
+        <form class="upload-form" action="/add_product" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Upload XLS/XLSX File</label>
+            <input class="form-control" type="file" id="formFile" name="excel">
+          </div>
+          <div class="error-message"></div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Sl. No</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Lowest Price</th>
+      <th scope="col">Variations / Stock</th>
+      <th scope="col">Last Updated</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in products %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.lowest_price }}</td>
+      <td>
+        {% for variation in product.variations %}
+        <p style="{%if variation.stock == 0%}color: red{%endif%}">
+          {{ variation.variation_text }} - {{ variation.stock }}
+        </p>
         {% endfor %}
-    </ul>
+      </td>
+      <td>{{ product.updated_at }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

@@ -3,12 +3,13 @@ from openpyxl import load_workbook
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import Product, ProductVariation
-
+import os
 def index(request):
     products = Product.objects.all()
     for product in products:
-        product_variations = ProductVariation.objects.filter(product_id=product.id)
+        product_variations = ProductVariation.objects.filter(product_id=product.uid)
         product.variations = product_variations
+    print(type (products))
     context = {
         'products': products,
     }
@@ -34,7 +35,7 @@ def add_product(request):
             if products:
                 for product in Product.objects.filter(name=row[0].value):
                     print('product exists')
-                    product_variations_list = ProductVariation.objects.filter(product_id=product.id, variation_text=row[1].value)
+                    product_variations_list = ProductVariation.objects.filter(product_id=product.uid, variation_text=row[1].value)
                     if product_variations_list:
                         for product_variation in product_variations_list:
                             product_variation.stock += row[2].value
@@ -45,6 +46,7 @@ def add_product(request):
                             variation_text=row[1].value,
                             stock=row[2].value,
                         )
+                # TODO: Update the product's lowest price, update TIMESTAMP
             else:
                 product = Product.objects.create(
                     name=row[0].value,
