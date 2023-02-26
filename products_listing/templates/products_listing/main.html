@@ -7,7 +7,7 @@
   data-bs-toggle="modal"
   data-bs-target="#staticBackdrop"
 >
-  Launch static backdrop modal
+  Add New Product
 </button>
 
 <!-- Modal -->
@@ -32,20 +32,16 @@
         ></button>
       </div>
       <div class="modal-body">
-        <!-- add a form to upload file -->
-        <form class="upload-form" action="/add_product" method="POST" enctype="multipart/form-data">
+        <form class="upload-form" onchange="checkFileType(event)">
           <div class="mb-3">
-            <label for="formFile" class="form-label">Upload XLS/XLSX File</label>
-            <input class="form-control" type="file" id="formFile" name="excel">
+            <label class="form-label">Upload XLS/XLSX File</label>
+            <input class="form-control" type="file" name="excel">
           </div>
           <div class="error-message"></div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-        <button type="button" class="btn btn-primary">Understood</button>
+          <button type="submit" class="btn btn-primary upload-btn" disabled>Upload</button>
+          <button type="close" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+        </form>
       </div>
     </div>
   </div>
@@ -78,4 +74,27 @@
     {% endfor %}
   </tbody>
 </table>
+<select id="items" onchange="handleItemsChange(event)">
+    <option value="1">1</option>
+    <option value="5" selected>5</option>
+    <option value="10">10</option>
+    <option value="15">15</option>
+  </select>
+<div class="pagination">
+    <span class="step-links">
+        {% if products.has_previous %}
+            <a href="?page=1&per_page=1">&laquo; first</a>
+            <a href="?page={{ products.previous_page_number }}&per_page=1">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ products.number }} of {{ products.paginator.num_pages }}.
+        </span>
+
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}&per_page=1">next</a>
+            <a href="?page={{ products.paginator.num_pages }}&per_page=1">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}

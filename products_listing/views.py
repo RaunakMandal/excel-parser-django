@@ -3,16 +3,23 @@ from openpyxl import load_workbook
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import Product, ProductVariation
+from django.core.paginator import Paginator
+
 import os
+
 def index(request):
+    page = request.GET.get('page') or 1
+    per_page = request.GET.get('per_page') or 5
     products = Product.objects.all()
     for product in products:
         product_variations = ProductVariation.objects.filter(product_id=product.uid)
         product.variations = product_variations
-    print(type (products))
+
+    paginator = Paginator(products, per_page)
     context = {
-        'products': products,
+        'products': paginator.get_page(page),
     }
+
     return render(request, 'products_listing/main.html', context)
 
 @csrf_exempt
