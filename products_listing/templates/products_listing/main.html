@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Product Listing</h1>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - {{ product.price }}</li>
+            {% for variation in product.variations %}
+                <li>{{ variation.variation_text }} - {{ variation.stock }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endblock %}
