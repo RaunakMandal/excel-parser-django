@@ -8,9 +8,6 @@ load_dotenv()
 
 SECRET_KEY = 'django-insecure-v8cg%3dq((nd_(a8qc$vb3asmd((-nm^32qe@j58$v!tj5_h+2'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -104,7 +101,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = (
+STATICFILES_ROOT = (
     os.path.join(BASE_DIR, "static/"),
 )
 # Default primary key field type

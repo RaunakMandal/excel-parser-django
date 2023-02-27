@@ -9,13 +9,14 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- Using jsdelivr CDN using github for static files -->
+    <link crossorigin="anonymous" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/RaunakMandal/excel-parser-django@master/static/css/styles.css">
 </head>
 <body>
     <div class="container">
         {% block content %}
         {% endblock %}
     </div>
-    <script src="{% static 'js/script.js' %}"></script>
+    <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/gh/RaunakMandal/excel-parser-django@master/static/js/script.js"></script>
 </body>
 </html>
