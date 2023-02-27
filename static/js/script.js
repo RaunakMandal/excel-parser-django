@@ -30,21 +30,16 @@ document.getElementsByClassName('upload-form')[0].addEventListener('submit', asy
         method: 'POST',
         body: new FormData(document.getElementsByClassName('upload-form')[0])
     }).then(function(response) {
-        console.log(response);
         if (response.status == 200) {
             document.getElementsByClassName('error-message')[0].innerHTML = 'Upload successful';
         } else {
             document.getElementsByClassName('error-message')[0].innerHTML = response.statusText;
         }
+        window.location.href = "/products";
     }).catch(function(error) {
         console.log(error);
     });
 });
-
-const handleItemsChange = (event) => {
-    console.log(event.target.value);
-    window.location.href += `?per_page=${event.target.value}`;
-}
 
 const search = (event) => {
     if (window.location.href.includes('q')) {

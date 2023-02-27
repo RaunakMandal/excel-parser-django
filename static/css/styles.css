@@ -1,3 +1,29 @@
-p {
-    color: red;
+body {
+    font-family: sans-serif;
+    color: #2c304e;
+    padding: 24px;
+}
+
+.top-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    height: 40px;
+}
+.top-container > .search-form {
+    width: 40%;
+}
+.top-container > .btn {
+    height: inherit;
+    width: 152px;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 24px 0;
 }

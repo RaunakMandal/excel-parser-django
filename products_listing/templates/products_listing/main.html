@@ -1,101 +1,90 @@
 {% extends 'base.html' %} {% block content %}
 
 <!-- Button trigger modal -->
-<button
-  type="button"
-  class="btn btn-primary"
-  data-bs-toggle="modal"
-  data-bs-target="#staticBackdrop"
->
-  Add New Product
-</button>
+<div class="top-container">
+    <input class="form-control search-form" type="text" placeholder="Enter search query..." onchange="search(event)">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Add New Product
+    </button>
+</div>
 
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="staticBackdrop"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="staticBackdropLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Add New Product</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form class="upload-form" onchange="checkFileType(event)">
-          <div class="mb-3">
-            <label class="form-label">Upload XLS/XLSX File</label>
-            <input class="form-control" type="file" name="excel">
-          </div>
-          <div class="error-message"></div>
-          <button type="submit" class="btn btn-primary upload-btn" disabled>Upload</button>
-          <button type="close" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-
-        </form>
-      </div>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add New Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="upload-form" onchange="checkFileType(event)" ondragenter="checkFileType(event)">
+                    <div class="mb-3">
+                        <label class="form-label">Upload XLS/XLSX File</label>
+                        <input class="form-control" type="file" name="excel">
+                    </div>
+                    <div class="error-message"></div>
+                    <button type="submit" class="btn btn-primary upload-btn" disabled>Upload</button>
+                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" onclick="">Cancel</button>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-<input class="form-control search-form" type="text" onchange="search(event)">
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Sl. No</th>
-      <th scope="col" onclick="sort('name')">Product Name</th>
-      <th scope="col" onclick="sort('lowest_price')">Lowest Price</th>
-      <th scope="col">Variations / Stock</th>
-      <th scope="col" onclick="sort('updated_at')">Last Updated</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for product in products %}
-    <tr>
-      <td>{{ forloop.counter }}</td>
-      <td>{{ product.name }}</td>
-      <td>{{ product.lowest_price }}</td>
-      <td>
-        {% for variation in product.variations %}
-        <p style="{%if variation.stock == 0%}color: red{%endif%}">
-          {{ variation.variation_text }} - {{ variation.stock }}
-        </p>
-        {% endfor %}
-      </td>
-      <td>{{ product.updated_at }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<!-- <select id="items" onchange="handleItemsChange(event)">
-    <option value="1">1</option>
-    <option value="5" selected>5</option>
-    <option value="10">10</option>
-    <option value="15">15</option>
-  </select>
+<div class="data-table">
+    <table class="table table-bordered table-hover outer-table">
+        <thead>
+            <tr>
+                <th scope="col">Sl. No</th>
+                <th scope="col" onclick="sort('name')">Product Name</th>
+                <th scope="col" onclick="sort('lowest_price')">Lowest Price</th>
+                <th scope="col">Variations / Stock</th>
+                <th scope="col" onclick="sort('updated_at')">Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.lowest_price }}</td>
+                <td>
+                    <table class="table table-bordered table-hover inner-table">
+                        <thead>
+                            <tr>
+                                <th>Variation</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for variation in product.variations %}
+                            <tr style="{%if variation.stock == 0%}color: red{%endif%}">
+                                <td>{{ variation.variation_text }}</td>
+                                <td>{{ variation.stock }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+                <td>{{ product.updated_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 <div class="pagination">
     <span class="step-links">
         {% if products.has_previous %}
-            <a href="?page=1&per_page=1">&laquo; first</a>
-            <a href="?page={{ products.previous_page_number }}&per_page=1">previous</a>
+        <a href="?page={{ products.previous_page_number }}">Previous</a>
         {% endif %}
 
         <span class="current">
-            Page {{ products.number }} of {{ products.paginator.num_pages }}.
+            Page {{ products.number }} of {{ products.paginator.num_pages }}
         </span>
 
         {% if products.has_next %}
-            <a href="?page={{ products.next_page_number }}&per_page=1">next</a>
-            <a href="?page={{ products.paginator.num_pages }}&per_page=1">last &raquo;</a>
+        <a href="?page={{ products.next_page_number }}">Next</a>
         {% endif %}
     </span>
-</div> -->
+</div>
 {% endblock %}

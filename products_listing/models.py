@@ -4,7 +4,7 @@ import uuid
 class Product(models.Model):
     uid = models.UUIDField(primary_key=True, max_length=24, default=uuid.uuid4, unique=True, editable=False)
     name = models.TextField()
-    lowest_price = models.TextField(default=0)
+    lowest_price = models.TextField()
     updated_at = models.DateTimeField(auto_now=True)
 
 class ProductVariation(models.Model):
