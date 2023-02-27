@@ -133,4 +133,4 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ALLOWED_HOSTS = ['excel-parser-django.onrender.com']
+ALLOWED_HOSTS = ['*']
