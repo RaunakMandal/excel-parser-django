@@ -2,3 +2,4 @@ Django
 django-bootstrap-v5
 python-dotenv
 gunicorn
+importlib-metadata
