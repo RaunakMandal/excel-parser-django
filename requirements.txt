@@ -4,3 +4,4 @@ python-dotenv
 gunicorn
 importlib-metadata
 psycopg2
+openpyxl
