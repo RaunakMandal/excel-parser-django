@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from openpyxl import load_workbook
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from .models import Product, ProductVariation
 from django.core.paginator import Paginator
 import random
 import datetime
+
+def redirect(request):
+    return HttpResponseRedirect("/products")
 
 # This is the Main method which will be called when the user visits the /products page.
 def getProducts(request):
