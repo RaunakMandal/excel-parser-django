@@ -10,7 +10,10 @@ import os
 def index(request):
     page = request.GET.get('page') or 1
     per_page = request.GET.get('per_page') or 5
-    products = Product.objects.all()
+    q = request.GET.get('q') or ''
+    sortcol = request.GET.get('sortcol') or 'name'
+    sortdir = request.GET.get('sortdir') or 'asc'
+    products = Product.objects.filter(name__icontains=q).order_by(sortcol).reverse() if sortdir == 'desc' else Product.objects.filter(name__icontains=q).order_by(sortcol)
     for product in products:
         product_variations = ProductVariation.objects.filter(product_id=product.uid)
         product.variations = product_variations

@@ -43,5 +43,23 @@ document.getElementsByClassName('upload-form')[0].addEventListener('submit', asy
 
 const handleItemsChange = (event) => {
     console.log(event.target.value);
-    window.location.href = `/products?per_page=${event.target.value}`;
+    window.location.href += `?per_page=${event.target.value}`;
+}
+
+const search = (event) => {
+    if (window.location.href.includes('q')) {
+        window.location.href = window.location.href.replace(/q=([^&#]*)/, `q=${event.target.value}`);
+    } else {
+        window.location.href += `?q=${event.target.value}`;
+    }
+}
+
+const sort = (column) => {
+    if (window.location.href.includes('sortcol') && window.location.href.includes('sortdir')) {
+        let dir = window.location.href.split('sortdir=')[1].split('&')[0];
+        dir = (dir === 'asc' ? 'desc' : 'asc');
+        window.location.href = window.location.href.replace(/sortcol=([^&#]*)/, `sortcol=${column}`).replace(/sortdir=([^&#]*)/, `sortdir=${dir}`);
+    } else {
+        window.location.href += `?sortcol=${column}&sortdir=asc`;
+    }
 }
