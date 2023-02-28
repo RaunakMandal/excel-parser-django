@@ -75,7 +75,7 @@
 <div class="pagination">
     <span class="step-links">
         {% if products.has_previous %}
-        <a href="?page={{ products.previous_page_number }}">Previous</a>
+        <span class="btn-pagination" onclick="changePage(`{{previous.next_page_number}}`)">Previous</span>
         {% endif %}
 
         <span class="current">
@@ -83,7 +83,7 @@
         </span>
 
         {% if products.has_next %}
-        <a href="?page={{ products.next_page_number }}">Next</a>
+        <span class="btn-pagination" onclick="changePage(`{{products.next_page_number}}`)">Next</span>
         {% endif %}
     </span>
 </div>

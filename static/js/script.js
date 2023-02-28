@@ -43,9 +43,13 @@ document.getElementsByClassName('upload-form')[0].addEventListener('submit', asy
 
 const search = (event) => {
     if (window.location.href.includes('q')) {
-        window.location.href = window.location.href.replace(/q=([^&#]*)/, `q=${event.target.value}`);
+        window.location.href = window.location.href.replace(/q=([^&#]*)/, `&q=${event.target.value}`);
     } else {
-        window.location.href += `?q=${event.target.value}`;
+        if (window.location.href.includes('?')) {
+            window.location.href += `&q=${event.target.value}`;
+        } else {
+            window.location.href += `?q=${event.target.value}`;
+        }
     }
 }
 
@@ -55,6 +59,22 @@ const sort = (column) => {
         dir = (dir === 'asc' ? 'desc' : 'asc');
         window.location.href = window.location.href.replace(/sortcol=([^&#]*)/, `sortcol=${column}`).replace(/sortdir=([^&#]*)/, `sortdir=${dir}`);
     } else {
-        window.location.href += `?sortcol=${column}&sortdir=asc`;
+        if (window.location.href.includes('?')) {
+            window.location.href += `&sortcol=${column}&sortdir=asc`;
+        } else {
+            window.location.href += `?sortcol=${column}&sortdir=asc`;
+        }
+    }
+}
+
+const changePage = (page) => {
+    if (window.location.href.includes('page')) {
+        window.location.href = window.location.href.replace(/page=([^&#]*)/, `page=${page}`);
+    } else {
+        if (window.location.href.includes('?')) {
+            window.location.href += `&page=${page}`;
+        } else {
+            window.location.href += `?page=${page}`;
+        }
     }
 }

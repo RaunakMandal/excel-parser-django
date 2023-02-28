@@ -27,3 +27,8 @@ body {
     align-items: center;
     margin: 24px 0;
 }
+
+.btn-pagination {
+    cursor: pointer;
+    color: #1B98F5;
+}
