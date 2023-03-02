@@ -16,7 +16,7 @@ const checkFileType = (event) => {
         document.getElementsByClassName('error-message')[0].innerHTML = 'File size must be less than 2MB';
         return;
     }
-    if (event.target.files[0].type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+    if (!['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(event.target.files[0].type)) {
         toggleSubmitButton(false);
         document.getElementsByClassName('error-message')[0].innerHTML = 'Only .xlsx/.xls files are allowed';
         return;
